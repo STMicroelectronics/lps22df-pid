@@ -517,27 +517,33 @@ typedef struct
 } lps22df_id_t;
 int32_t lps22df_id_get(stmdev_ctx_t *ctx, lps22df_id_t *val);
 
+typedef enum
+{
+  LPS22DF_SEL_BY_HW      = 0x00, /* bus mode select by HW (SPI 3W disable) */
+  LPS22DF_SPI_4W         = 0x02, /* Only SPI: SDO / SDI separated pins */
+  LPS22DF_SPI_3W         = 0x03, /* Only SPI: SDO / SDI share the same pin */
+  LPS22DF_INT_PIN_ON_I3C = 0x04, /* INT pin polarized as OUT with I3C */
+} lps22df_interface_t;
+
+typedef enum
+{
+  LPS22DF_AUTO      = 0x00, /* bus mode select by HW (SPI 3W disable) */
+  LPS22DF_ALWAYS_ON = 0x01, /* Only SPI: SDO / SDI separated pins */
+} lps22df_filter_t;
+
+typedef enum
+{
+  LPS22DF_IBI_50us = 0x0,
+  LPS22DF_IBI_2us = 0x1,
+  LPS22DF_IBI_1ms = 0x2,
+  LPS22DF_IBI_25ms = 0x3
+} lps22df_i3c_ibi_time_t;
+
 typedef struct
 {
-  enum
-  {
-    LPS22DF_SEL_BY_HW      = 0x00, /* bus mode select by HW (SPI 3W disable) */
-    LPS22DF_SPI_4W         = 0x02, /* Only SPI: SDO / SDI separated pins */
-    LPS22DF_SPI_3W         = 0x03, /* Only SPI: SDO / SDI share the same pin */
-    LPS22DF_INT_PIN_ON_I3C = 0x04, /* INT pin polarized as OUT with I3C */
-  } interface;
-  enum
-  {
-    LPS22DF_AUTO      = 0x00, /* bus mode select by HW (SPI 3W disable) */
-    LPS22DF_ALWAYS_ON = 0x01, /* Only SPI: SDO / SDI separated pins */
-  } filter;
-  enum
-  {
-    LPS22DF_IBI_50us = 0x0,
-    LPS22DF_IBI_2us = 0x1,
-    LPS22DF_IBI_1ms = 0x2,
-    LPS22DF_IBI_25ms = 0x3
-  } i3c_ibi_time;
+  lps22df_interface_t interface;
+  lps22df_filter_t filter;
+  lps22df_i3c_ibi_time_t i3c_ibi_time;
 } lps22df_bus_mode_t;
 int32_t lps22df_bus_mode_set(stmdev_ctx_t *ctx, lps22df_bus_mode_t *val);
 int32_t lps22df_bus_mode_get(stmdev_ctx_t *ctx, lps22df_bus_mode_t *val);
@@ -587,37 +593,43 @@ typedef struct
 } lps22df_all_sources_t;
 int32_t lps22df_all_sources_get(stmdev_ctx_t *ctx, lps22df_all_sources_t *val);
 
+typedef enum
+{
+  LPS22DF_ONE_SHOT = 0x00, /* Device in power down till software trigger */
+  LPS22DF_1Hz      = 0x01,
+  LPS22DF_4Hz      = 0x02,
+  LPS22DF_10Hz     = 0x03,
+  LPS22DF_25Hz     = 0x04,
+  LPS22DF_50Hz     = 0x05,
+  LPS22DF_75Hz     = 0x06,
+  LPS22DF_100Hz    = 0x07,
+  LPS22DF_200Hz    = 0x08,
+} lps22df_odr_t;
+
+typedef enum
+{
+  LPS22DF_4_AVG   = 0,
+  LPS22DF_8_AVG   = 1,
+  LPS22DF_16_AVG  = 2,
+  LPS22DF_32_AVG  = 3,
+  LPS22DF_64_AVG  = 4,
+  LPS22DF_128_AVG = 5,
+  LPS22DF_256_AVG = 6,
+  LPS22DF_512_AVG = 7,
+} lps22df_avg_t;
+
+typedef enum
+{
+  LPS22DF_LPF_DISABLE   = 0,
+  LPS22DF_LPF_ODR_DIV_4 = 1,
+  LPS22DF_LPF_ODR_DIV_9 = 3,
+} lps22df_lpf_t;
+
 typedef struct
 {
-  enum
-  {
-    LPS22DF_ONE_SHOT = 0x00, /* Device in power down till software trigger */
-    LPS22DF_1Hz      = 0x01,
-    LPS22DF_4Hz      = 0x02,
-    LPS22DF_10Hz     = 0x03,
-    LPS22DF_25Hz     = 0x04,
-    LPS22DF_50Hz     = 0x05,
-    LPS22DF_75Hz     = 0x06,
-    LPS22DF_100Hz    = 0x07,
-    LPS22DF_200Hz    = 0x08,
-  } odr;
-  enum
-  {
-    LPS22DF_4_AVG   = 0,
-    LPS22DF_8_AVG   = 1,
-    LPS22DF_16_AVG  = 2,
-    LPS22DF_32_AVG  = 3,
-    LPS22DF_64_AVG  = 4,
-    LPS22DF_128_AVG = 5,
-    LPS22DF_256_AVG = 6,
-    LPS22DF_512_AVG = 7,
-  } avg;
-  enum
-  {
-    LPS22DF_LPF_DISABLE   = 0,
-    LPS22DF_LPF_ODR_DIV_4 = 1,
-    LPS22DF_LPF_ODR_DIV_9 = 3,
-  } lpf;
+  lps22df_odr_t odr;
+  lps22df_avg_t avg;
+  lps22df_lpf_t lpf;
 } lps22df_md_t;
 int32_t lps22df_mode_set(stmdev_ctx_t *ctx, lps22df_md_t *val);
 int32_t lps22df_mode_get(stmdev_ctx_t *ctx, lps22df_md_t *val);
@@ -639,17 +651,19 @@ typedef struct
 } lps22df_data_t;
 int32_t lps22df_data_get(stmdev_ctx_t *ctx, lps22df_data_t *data);
 
+typedef enum
+{
+  LPS22DF_BYPASS           = 0,
+  LPS22DF_FIFO             = 1,
+  LPS22DF_STREAM           = 2,
+  LPS22DF_STREAM_TO_FIFO   = 7, /* Dynamic-Stream, FIFO on Trigger */
+  LPS22DF_BYPASS_TO_STREAM = 6, /* Bypass, Dynamic-Stream on Trigger */
+  LPS22DF_BYPASS_TO_FIFO   = 5, /* Bypass, FIFO on Trigger */
+} lps22df_operation_t;
+
 typedef struct
 {
-  enum
-  {
-    LPS22DF_BYPASS           = 0,
-    LPS22DF_FIFO             = 1,
-    LPS22DF_STREAM           = 2,
-    LPS22DF_STREAM_TO_FIFO   = 7, /* Dynamic-Stream, FIFO on Trigger */
-    LPS22DF_BYPASS_TO_STREAM = 6, /* Bypass, Dynamic-Stream on Trigger */
-    LPS22DF_BYPASS_TO_FIFO   = 5, /* Bypass, FIFO on Trigger */
-  } operation;
+  lps22df_operation_t operation;
   uint8_t watermark; /* (0 disable) max 128.*/
 } lps22df_fifo_md_t;
 int32_t lps22df_fifo_mode_set(stmdev_ctx_t *ctx, lps22df_fifo_md_t *val);
@@ -696,14 +710,16 @@ int32_t lps22df_int_on_threshold_mode_set(stmdev_ctx_t *ctx,
 int32_t lps22df_int_on_threshold_mode_get(stmdev_ctx_t *ctx,
                                           lps22df_int_th_md_t *val);
 
+typedef enum
+{
+  LPS22DF_OUT_AND_INTERRUPT = 0,
+  LPS22DF_ONLY_INTERRUPT    = 1,
+  LPS22DF_RST_REFS          = 2,
+} lps22df_apply_ref_t;
+
 typedef struct
 {
-  enum
-  {
-    LPS22DF_OUT_AND_INTERRUPT = 0,
-    LPS22DF_ONLY_INTERRUPT    = 1,
-    LPS22DF_RST_REFS          = 2,
-  } apply_ref;
+  lps22df_apply_ref_t apply_ref;
   uint8_t get_ref : 1; /* Use current pressure value as reference */
 } lps22df_ref_md_t;
 int32_t lps22df_reference_mode_set(stmdev_ctx_t *ctx,
