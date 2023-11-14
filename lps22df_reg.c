@@ -272,7 +272,9 @@ int32_t lps22df_init_set(stmdev_ctx_t *ctx, lps22df_init_t val)
 {
   lps22df_ctrl_reg2_t ctrl_reg2;
   lps22df_ctrl_reg3_t ctrl_reg3;
-  uint8_t reg[2];
+  lps22df_int_source_t int_src;
+  lps22df_stat_t status;
+  uint8_t reg[2], cnt = 0;
   int32_t ret;
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG2, reg, 2);
@@ -287,11 +289,43 @@ int32_t lps22df_init_set(stmdev_ctx_t *ctx, lps22df_init_t val)
         ctrl_reg2.boot = PROPERTY_ENABLE;
         ret = lps22df_write_reg(ctx, LPS22DF_CTRL_REG2,
                                 (uint8_t *)&ctrl_reg2, 1);
+        if (ret != 0) { break; }
+
+        do {
+          ret = lps22df_read_reg(ctx, LPS22DF_INT_SOURCE, (uint8_t *)&int_src, 1);
+          if (ret != 0) { break; }
+
+          /* boot procedue ended correctly */
+          if (int_src.boot_on == 0U) { break; }
+
+          if (ctx->mdelay != NULL) {
+            ctx->mdelay(10); /* 10ms of boot time */
+          }
+        } while (cnt++ < 5U);
+
+        if (cnt >= 5U) { ret = -1; } /* boot procedure failed */
+
         break;
       case LPS22DF_RESET:
         ctrl_reg2.swreset = PROPERTY_ENABLE;
         ret = lps22df_write_reg(ctx, LPS22DF_CTRL_REG2,
                                 (uint8_t *)&ctrl_reg2, 1);
+        if (ret != 0) { break; }
+
+        do {
+          ret = lps22df_status_get(ctx, &status);
+          if (ret != 0) { break; }
+
+          /* sw-reset procedue ended correctly */
+          if (status.sw_reset == 0U) { break; }
+
+          if (ctx->mdelay != NULL) {
+            ctx->mdelay(1); /* should be 50 us */
+          }
+        } while (cnt++ < 5U);
+
+        if (cnt >= 5U) { ret = -1; } /* sw-reset procedure failed */
+
         break;
       case LPS22DF_DRV_RDY:
         ctrl_reg2.bdu = PROPERTY_ENABLE;
