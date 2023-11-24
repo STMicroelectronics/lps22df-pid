@@ -488,7 +488,7 @@ typedef union
   lps22df_status_t           status;
   bitwise_t                  bitwise;
   uint8_t                    byte;
-} lis2du12_reg_t;
+} lps22df_reg_t;
 
 #ifndef __weak
 #define __weak __attribute__((weak))
