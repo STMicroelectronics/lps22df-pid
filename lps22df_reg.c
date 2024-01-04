@@ -46,12 +46,15 @@
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t __weak lps22df_read_reg(stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
+int32_t __weak lps22df_read_reg(const stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
                                 uint16_t len)
 {
   int32_t ret;
 
+  if (ctx == NULL) return -1;
+
   ret = ctx->read_reg(ctx->handle, reg, data, len);
+
   return ret;
 }
 
@@ -65,12 +68,15 @@ int32_t __weak lps22df_read_reg(stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t __weak lps22df_write_reg(stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
+int32_t __weak lps22df_write_reg(const stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
                                  uint16_t len)
 {
   int32_t ret;
 
+  if (ctx == NULL) return -1;
+
   ret = ctx->write_reg(ctx->handle, reg, data, len);
+
   return ret;
 }
 
@@ -137,7 +143,7 @@ float_t lps22df_from_lsb_to_celsius(int16_t lsb)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_id_get(stmdev_ctx_t *ctx, lps22df_id_t *val)
+int32_t lps22df_id_get(const stmdev_ctx_t *ctx, lps22df_id_t *val)
 {
   uint8_t reg;
   int32_t ret;
@@ -156,7 +162,7 @@ int32_t lps22df_id_get(stmdev_ctx_t *ctx, lps22df_id_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_bus_mode_set(stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
+int32_t lps22df_bus_mode_set(const stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
 {
   lps22df_i3c_if_ctrl_add_t i3c_if_ctrl_add;
   lps22df_if_ctrl_t if_ctrl;
@@ -193,7 +199,7 @@ int32_t lps22df_bus_mode_set(stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_bus_mode_get(stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
+int32_t lps22df_bus_mode_get(const stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
 {
   lps22df_i3c_if_ctrl_add_t i3c_if_ctrl_add;
   lps22df_if_ctrl_t if_ctrl;
@@ -268,7 +274,7 @@ int32_t lps22df_bus_mode_get(stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_init_set(stmdev_ctx_t *ctx, lps22df_init_t val)
+int32_t lps22df_init_set(const stmdev_ctx_t *ctx, lps22df_init_t val)
 {
   lps22df_ctrl_reg2_t ctrl_reg2;
   lps22df_ctrl_reg3_t ctrl_reg3;
@@ -352,7 +358,7 @@ int32_t lps22df_init_set(stmdev_ctx_t *ctx, lps22df_init_t val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_status_get(stmdev_ctx_t *ctx, lps22df_stat_t *val)
+int32_t lps22df_status_get(const stmdev_ctx_t *ctx, lps22df_stat_t *val)
 {
   lps22df_interrupt_cfg_t interrupt_cfg;
   lps22df_int_source_t int_source;
@@ -395,7 +401,7 @@ int32_t lps22df_status_get(stmdev_ctx_t *ctx, lps22df_stat_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_pin_conf_set(stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
+int32_t lps22df_pin_conf_set(const stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
 {
   lps22df_ctrl_reg3_t ctrl_reg3;
   lps22df_if_ctrl_t if_ctrl;
@@ -431,7 +437,7 @@ int32_t lps22df_pin_conf_set(stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_pin_conf_get(stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
+int32_t lps22df_pin_conf_get(const stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
 {
   lps22df_ctrl_reg3_t ctrl_reg3;
   lps22df_if_ctrl_t if_ctrl;
@@ -459,7 +465,7 @@ int32_t lps22df_pin_conf_get(stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_all_sources_get(stmdev_ctx_t *ctx,
+int32_t lps22df_all_sources_get(const stmdev_ctx_t *ctx,
                                 lps22df_all_sources_t *val)
 {
   lps22df_fifo_status2_t fifo_status2;
@@ -500,7 +506,7 @@ int32_t lps22df_all_sources_get(stmdev_ctx_t *ctx,
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_mode_set(stmdev_ctx_t *ctx, lps22df_md_t *val)
+int32_t lps22df_mode_set(const stmdev_ctx_t *ctx, lps22df_md_t *val)
 {
   lps22df_ctrl_reg1_t ctrl_reg1;
   lps22df_ctrl_reg2_t ctrl_reg2;
@@ -535,7 +541,7 @@ int32_t lps22df_mode_set(stmdev_ctx_t *ctx, lps22df_md_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_mode_get(stmdev_ctx_t *ctx, lps22df_md_t *val)
+int32_t lps22df_mode_get(const stmdev_ctx_t *ctx, lps22df_md_t *val)
 {
   lps22df_ctrl_reg1_t ctrl_reg1;
   lps22df_ctrl_reg2_t ctrl_reg2;
@@ -641,7 +647,7 @@ int32_t lps22df_mode_get(stmdev_ctx_t *ctx, lps22df_md_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_trigger_sw(stmdev_ctx_t *ctx, lps22df_md_t *md)
+int32_t lps22df_trigger_sw(const stmdev_ctx_t *ctx, lps22df_md_t *md)
 {
   lps22df_ctrl_reg2_t ctrl_reg2;
   int32_t ret;
@@ -666,7 +672,7 @@ int32_t lps22df_trigger_sw(stmdev_ctx_t *ctx, lps22df_md_t *md)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_data_get(stmdev_ctx_t *ctx, lps22df_data_t *data)
+int32_t lps22df_data_get(const stmdev_ctx_t *ctx, lps22df_data_t *data)
 {
   uint8_t buff[5];
   int32_t ret;
@@ -711,7 +717,7 @@ int32_t lps22df_data_get(stmdev_ctx_t *ctx, lps22df_data_t *data)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_fifo_mode_set(stmdev_ctx_t *ctx, lps22df_fifo_md_t *val)
+int32_t lps22df_fifo_mode_set(const stmdev_ctx_t *ctx, lps22df_fifo_md_t *val)
 {
   lps22df_fifo_ctrl_t fifo_ctrl;
   lps22df_fifo_wtm_t fifo_wtm;
@@ -754,7 +760,7 @@ int32_t lps22df_fifo_mode_set(stmdev_ctx_t *ctx, lps22df_fifo_md_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_fifo_mode_get(stmdev_ctx_t *ctx, lps22df_fifo_md_t *val)
+int32_t lps22df_fifo_mode_get(const stmdev_ctx_t *ctx, lps22df_fifo_md_t *val)
 {
   lps22df_fifo_ctrl_t fifo_ctrl;
   lps22df_fifo_wtm_t fifo_wtm;
@@ -804,7 +810,7 @@ int32_t lps22df_fifo_mode_get(stmdev_ctx_t *ctx, lps22df_fifo_md_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_fifo_level_get(stmdev_ctx_t *ctx, uint8_t *val)
+int32_t lps22df_fifo_level_get(const stmdev_ctx_t *ctx, uint8_t *val)
 {
   lps22df_fifo_status1_t fifo_status1;
   int32_t ret;
@@ -826,7 +832,7 @@ int32_t lps22df_fifo_level_get(stmdev_ctx_t *ctx, uint8_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_fifo_data_get(stmdev_ctx_t *ctx, uint8_t samp, lps22df_fifo_data_t *data)
+int32_t lps22df_fifo_data_get(const stmdev_ctx_t *ctx, uint8_t samp, lps22df_fifo_data_t *data)
 {
   uint8_t fifo_data[3];
   uint8_t i;
@@ -866,7 +872,7 @@ int32_t lps22df_fifo_data_get(stmdev_ctx_t *ctx, uint8_t samp, lps22df_fifo_data
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_interrupt_mode_set(stmdev_ctx_t *ctx,
+int32_t lps22df_interrupt_mode_set(const stmdev_ctx_t *ctx,
                                    lps22df_int_mode_t *val)
 {
   lps22df_interrupt_cfg_t interrupt_cfg;
@@ -911,7 +917,7 @@ int32_t lps22df_interrupt_mode_set(stmdev_ctx_t *ctx,
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_interrupt_mode_get(stmdev_ctx_t *ctx,
+int32_t lps22df_interrupt_mode_get(const stmdev_ctx_t *ctx,
                                    lps22df_int_mode_t *val)
 {
   lps22df_interrupt_cfg_t interrupt_cfg;
@@ -945,7 +951,7 @@ int32_t lps22df_interrupt_mode_get(stmdev_ctx_t *ctx,
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_pin_int_route_set(stmdev_ctx_t *ctx,
+int32_t lps22df_pin_int_route_set(const stmdev_ctx_t *ctx,
                                   lps22df_pin_int_route_t *val)
 {
   lps22df_ctrl_reg4_t ctrl_reg4;
@@ -972,7 +978,7 @@ int32_t lps22df_pin_int_route_set(stmdev_ctx_t *ctx,
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_pin_int_route_get(stmdev_ctx_t *ctx,
+int32_t lps22df_pin_int_route_get(const stmdev_ctx_t *ctx,
                                   lps22df_pin_int_route_t *val)
 {
   lps22df_ctrl_reg4_t ctrl_reg4;
@@ -1010,7 +1016,7 @@ int32_t lps22df_pin_int_route_get(stmdev_ctx_t *ctx,
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_int_on_threshold_mode_set(stmdev_ctx_t *ctx,
+int32_t lps22df_int_on_threshold_mode_set(const stmdev_ctx_t *ctx,
                                           lps22df_int_th_md_t *val)
 {
   lps22df_ctrl_reg4_t ctrl_reg4;
@@ -1059,7 +1065,7 @@ int32_t lps22df_int_on_threshold_mode_set(stmdev_ctx_t *ctx,
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_int_on_threshold_mode_get(stmdev_ctx_t *ctx,
+int32_t lps22df_int_on_threshold_mode_get(const stmdev_ctx_t *ctx,
                                           lps22df_int_th_md_t *val)
 {
   lps22df_interrupt_cfg_t interrupt_cfg;
@@ -1103,7 +1109,7 @@ int32_t lps22df_int_on_threshold_mode_get(stmdev_ctx_t *ctx,
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_reference_mode_set(stmdev_ctx_t *ctx, lps22df_ref_md_t *val)
+int32_t lps22df_reference_mode_set(const stmdev_ctx_t *ctx, lps22df_ref_md_t *val)
 {
   lps22df_interrupt_cfg_t interrupt_cfg;
   int32_t ret;
@@ -1133,7 +1139,7 @@ int32_t lps22df_reference_mode_set(stmdev_ctx_t *ctx, lps22df_ref_md_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_reference_mode_get(stmdev_ctx_t *ctx, lps22df_ref_md_t *val)
+int32_t lps22df_reference_mode_get(const stmdev_ctx_t *ctx, lps22df_ref_md_t *val)
 {
   lps22df_interrupt_cfg_t interrupt_cfg;
   int32_t ret;
@@ -1168,7 +1174,7 @@ int32_t lps22df_reference_mode_get(stmdev_ctx_t *ctx, lps22df_ref_md_t *val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_opc_set(stmdev_ctx_t *ctx, int16_t val)
+int32_t lps22df_opc_set(const stmdev_ctx_t *ctx, int16_t val)
 {
   uint8_t reg[2];
   int32_t ret;
@@ -1189,7 +1195,7 @@ int32_t lps22df_opc_set(stmdev_ctx_t *ctx, int16_t val)
   * @retval       interface status (MANDATORY: return 0 -> no Error)
   *
   */
-int32_t lps22df_opc_get(stmdev_ctx_t *ctx, int16_t *val)
+int32_t lps22df_opc_get(const stmdev_ctx_t *ctx, int16_t *val)
 {
   uint8_t reg[2];
   int32_t ret;
