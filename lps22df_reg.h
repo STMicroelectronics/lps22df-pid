@@ -651,6 +651,9 @@ typedef struct
 } lps22df_data_t;
 int32_t lps22df_data_get(const stmdev_ctx_t *ctx, lps22df_data_t *data);
 
+int32_t lps22df_pressure_raw_get(const stmdev_ctx_t *ctx, uint32_t *buff);
+int32_t lps22df_temperature_raw_get(const stmdev_ctx_t *ctx, int16_t *buff);
+
 typedef enum
 {
   LPS22DF_BYPASS           = 0,
