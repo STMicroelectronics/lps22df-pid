@@ -314,7 +314,7 @@ int32_t lps22df_init_set(const stmdev_ctx_t *ctx, lps22df_init_t val)
             break;
           }
 
-          /* boot procedue ended correctly */
+          /* boot procedure ended correctly */
           if (int_src.boot_on == 0U)
           {
             break;
@@ -349,7 +349,7 @@ int32_t lps22df_init_set(const stmdev_ctx_t *ctx, lps22df_init_t val)
             break;
           }
 
-          /* sw-reset procedue ended correctly */
+          /* sw-reset procedure ended correctly */
           if (status.sw_reset == 0U)
           {
             break;
