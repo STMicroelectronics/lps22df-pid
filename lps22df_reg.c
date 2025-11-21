@@ -1319,8 +1319,8 @@ int32_t lps22df_reference_mode_set(const stmdev_ctx_t *ctx, lps22df_ref_md_t *va
     interrupt_cfg.reset_az  = ((uint8_t)val->apply_ref & 0x02U) >> 1;
     interrupt_cfg.reset_arp = ((uint8_t)val->apply_ref & 0x02U) >> 1;
 
-    ret = lps22df_read_reg(ctx, LPS22DF_INTERRUPT_CFG,
-                           (uint8_t *)&interrupt_cfg, 1);
+    ret = lps22df_write_reg(ctx, LPS22DF_INTERRUPT_CFG,
+                            (uint8_t *)&interrupt_cfg, 1);
   }
   return ret;
 }
