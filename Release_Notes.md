@@ -135,7 +135,7 @@ This directory contains the LPS22DF component drivers.
 
 </div>
 
-<input type="checkbox" id="collapse-section9" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section9" aria-hidden="true">
 <label for="collapse-section9" aria-hidden="true">V2.4.0 / 06-Oct-2025</label>
 <div>
 
@@ -144,6 +144,18 @@ This directory contains the LPS22DF component drivers.
 - Added checks before writes to avoid random content from being written
 - Changed fifo_mode API
 - Adding CODE_OF_CONDUCT.md and SECURITY.md
+
+##
+
+</div>
+
+<input type="checkbox" id="collapse-section10" checked aria-hidden="true">
+<label for="collapse-section10" aria-hidden="true">V2.4.1 / 15-Jan-2026</label>
+<div>
+
+## Main changes
+
+- Fix lps22df_reference_mode_set: use write instead of read
 
 ##
 
