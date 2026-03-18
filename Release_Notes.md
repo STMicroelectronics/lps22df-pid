@@ -30,13 +30,24 @@ This directory contains the LPS22DF component drivers.
 # Update history
 
 ::: {.collapse}
-<input type="checkbox" id="collapse-section11" checked aria-hidden="true">
+<input type="checkbox" id="collapse-section12" checked aria-hidden="true">
+<label for="collapse-section12" aria-hidden="true">V2.4.3 / 18-Mar-2026</label>
+<div>
+
+## Main changes
+
+- Change switch cases to use hex values
+- Change update history order (most recent on top)
+
+##
+
+</div>
+<input type="checkbox" id="collapse-section11" aria-hidden="true">
 <label for="collapse-section11" aria-hidden="true">V2.4.2 / 02-Mar-2026</label>
 <div>
 
 ## Main changes
 
-- Change update history order (most recent on top)
 - Replace assert with normal check and return
 
 ##
