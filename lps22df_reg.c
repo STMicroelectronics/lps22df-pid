@@ -48,7 +48,7 @@
 int32_t __weak lps22df_read_reg(const stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
                                 uint16_t len)
 {
-  int32_t ret;
+  int32_t ret = 0;
 
   if (ctx == NULL)
   {
@@ -73,7 +73,7 @@ int32_t __weak lps22df_read_reg(const stmdev_ctx_t *ctx, uint8_t reg, uint8_t *d
 int32_t __weak lps22df_write_reg(const stmdev_ctx_t *ctx, uint8_t reg, uint8_t *data,
                                  uint16_t len)
 {
-  int32_t ret;
+  int32_t ret = 0;
 
   if (ctx == NULL)
   {
@@ -150,8 +150,8 @@ float_t lps22df_from_lsb_to_celsius(int16_t lsb)
   */
 int32_t lps22df_id_get(const stmdev_ctx_t *ctx, lps22df_id_t *val)
 {
-  uint8_t reg;
-  int32_t ret;
+  uint8_t reg = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_WHO_AM_I, &reg, 1);
   val->whoami = reg;
@@ -169,9 +169,9 @@ int32_t lps22df_id_get(const stmdev_ctx_t *ctx, lps22df_id_t *val)
   */
 int32_t lps22df_bus_mode_set(const stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
 {
-  lps22df_i3c_if_ctrl_t i3c_if_ctrl;
-  lps22df_if_ctrl_t if_ctrl;
-  int32_t ret;
+  lps22df_i3c_if_ctrl_t i3c_if_ctrl = {0};
+  lps22df_if_ctrl_t if_ctrl = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_IF_CTRL, (uint8_t *)&if_ctrl, 1);
   if (ret == 0)
@@ -206,9 +206,9 @@ int32_t lps22df_bus_mode_set(const stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
   */
 int32_t lps22df_bus_mode_get(const stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
 {
-  lps22df_i3c_if_ctrl_t i3c_if_ctrl;
-  lps22df_if_ctrl_t if_ctrl;
-  int32_t ret;
+  lps22df_i3c_if_ctrl_t i3c_if_ctrl = {0};
+  lps22df_if_ctrl_t if_ctrl = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_IF_CTRL, (uint8_t *)&if_ctrl, 1);
   if (ret == 0)
@@ -285,12 +285,12 @@ int32_t lps22df_bus_mode_get(const stmdev_ctx_t *ctx, lps22df_bus_mode_t *val)
   */
 int32_t lps22df_init_set(const stmdev_ctx_t *ctx, lps22df_init_t val)
 {
-  lps22df_ctrl_reg2_t ctrl_reg2;
-  lps22df_ctrl_reg3_t ctrl_reg3;
-  lps22df_int_source_t int_src;
-  lps22df_stat_t status;
-  uint8_t reg[2], cnt = 0;
-  int32_t ret;
+  lps22df_ctrl_reg2_t ctrl_reg2 = {0};
+  lps22df_ctrl_reg3_t ctrl_reg3 = {0};
+  lps22df_int_source_t int_src = {0};
+  lps22df_stat_t status = {0};
+  uint8_t reg[2] = {0}, cnt = 0;
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG2, reg, 2);
   if (ret == 0)
@@ -398,11 +398,11 @@ int32_t lps22df_init_set(const stmdev_ctx_t *ctx, lps22df_init_t val)
   */
 int32_t lps22df_status_get(const stmdev_ctx_t *ctx, lps22df_stat_t *val)
 {
-  lps22df_interrupt_cfg_t interrupt_cfg;
-  lps22df_int_source_t int_source;
-  lps22df_ctrl_reg2_t ctrl_reg2;
-  lps22df_status_t status;
-  int32_t ret;
+  lps22df_interrupt_cfg_t interrupt_cfg = {0};
+  lps22df_int_source_t int_source = {0};
+  lps22df_ctrl_reg2_t ctrl_reg2 = {0};
+  lps22df_status_t status = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG2,
                          (uint8_t *)&ctrl_reg2, 1);
@@ -445,9 +445,9 @@ int32_t lps22df_status_get(const stmdev_ctx_t *ctx, lps22df_stat_t *val)
   */
 int32_t lps22df_pin_conf_set(const stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
 {
-  lps22df_ctrl_reg3_t ctrl_reg3;
-  lps22df_if_ctrl_t if_ctrl;
-  int32_t ret;
+  lps22df_ctrl_reg3_t ctrl_reg3 = {0};
+  lps22df_if_ctrl_t if_ctrl = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_IF_CTRL, (uint8_t *)&if_ctrl, 1);
 
@@ -482,9 +482,9 @@ int32_t lps22df_pin_conf_set(const stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
   */
 int32_t lps22df_pin_conf_get(const stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
 {
-  lps22df_ctrl_reg3_t ctrl_reg3;
-  lps22df_if_ctrl_t if_ctrl;
-  int32_t ret;
+  lps22df_ctrl_reg3_t ctrl_reg3 = {0};
+  lps22df_if_ctrl_t if_ctrl = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_IF_CTRL, (uint8_t *)&if_ctrl, 1);
   if (ret == 0)
@@ -516,10 +516,10 @@ int32_t lps22df_pin_conf_get(const stmdev_ctx_t *ctx, lps22df_pin_conf_t *val)
 int32_t lps22df_all_sources_get(const stmdev_ctx_t *ctx,
                                 lps22df_all_sources_t *val)
 {
-  lps22df_fifo_status2_t fifo_status2;
-  lps22df_int_source_t int_source;
-  lps22df_status_t status;
-  int32_t ret;
+  lps22df_fifo_status2_t fifo_status2 = {0};
+  lps22df_int_source_t int_source = {0};
+  lps22df_status_t status = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_STATUS, (uint8_t *)&status, 1);
   if (ret == 0)
@@ -560,10 +560,10 @@ int32_t lps22df_all_sources_get(const stmdev_ctx_t *ctx,
   */
 int32_t lps22df_mode_set(const stmdev_ctx_t *ctx, lps22df_md_t *val)
 {
-  lps22df_ctrl_reg1_t ctrl_reg1;
-  lps22df_ctrl_reg2_t ctrl_reg2;
-  uint8_t reg[2];
-  int32_t ret;
+  lps22df_ctrl_reg1_t ctrl_reg1 = {0};
+  lps22df_ctrl_reg2_t ctrl_reg2 = {0};
+  uint8_t reg[2] = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG1, reg, 2);
 
@@ -595,10 +595,10 @@ int32_t lps22df_mode_set(const stmdev_ctx_t *ctx, lps22df_md_t *val)
   */
 int32_t lps22df_mode_get(const stmdev_ctx_t *ctx, lps22df_md_t *val)
 {
-  lps22df_ctrl_reg1_t ctrl_reg1;
-  lps22df_ctrl_reg2_t ctrl_reg2;
-  uint8_t reg[2];
-  int32_t ret;
+  lps22df_ctrl_reg1_t ctrl_reg1 = {0};
+  lps22df_ctrl_reg2_t ctrl_reg2 = {0};
+  uint8_t reg[2] = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG1, reg, 2);
 
@@ -701,7 +701,7 @@ int32_t lps22df_mode_get(const stmdev_ctx_t *ctx, lps22df_md_t *val)
   */
 int32_t lps22df_trigger_sw(const stmdev_ctx_t *ctx, lps22df_md_t *md)
 {
-  lps22df_ctrl_reg2_t ctrl_reg2;
+  lps22df_ctrl_reg2_t ctrl_reg2 = {0};
   int32_t ret = 0;
 
   if (md->odr == LPS22DF_ONE_SHOT)
@@ -726,8 +726,8 @@ int32_t lps22df_trigger_sw(const stmdev_ctx_t *ctx, lps22df_md_t *md)
   */
 int32_t lps22df_data_get(const stmdev_ctx_t *ctx, lps22df_data_t *data)
 {
-  uint8_t buff[5];
-  int32_t ret;
+  uint8_t buff[5] = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_PRESS_OUT_XL, buff, 5);
   if (ret != 0)
@@ -762,8 +762,8 @@ int32_t lps22df_data_get(const stmdev_ctx_t *ctx, lps22df_data_t *data)
   */
 int32_t lps22df_pressure_raw_get(const stmdev_ctx_t *ctx, uint32_t *buff)
 {
-  int32_t ret;
-  uint8_t reg[3];
+  int32_t ret = {0};
+  uint8_t reg[3] = {0};
 
   ret =  lps22df_read_reg(ctx, LPS22DF_PRESS_OUT_XL, reg, 3);
   if (ret != 0)
@@ -789,8 +789,8 @@ int32_t lps22df_pressure_raw_get(const stmdev_ctx_t *ctx, uint32_t *buff)
   */
 int32_t lps22df_temperature_raw_get(const stmdev_ctx_t *ctx, int16_t *buff)
 {
-  int32_t ret;
-  uint8_t reg[2];
+  int32_t ret = {0};
+  uint8_t reg[2] = {0};
 
   ret =  lps22df_read_reg(ctx, LPS22DF_TEMP_OUT_L, reg, 2);
   if (ret != 0)
@@ -827,8 +827,8 @@ int32_t lps22df_temperature_raw_get(const stmdev_ctx_t *ctx, int16_t *buff)
   */
 int32_t lps22df_fifo_mode_set(const stmdev_ctx_t *ctx, lps22df_operation_t val)
 {
-  lps22df_fifo_ctrl_t fifo_ctrl;
-  int32_t ret;
+  lps22df_fifo_ctrl_t fifo_ctrl = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_FIFO_CTRL, (uint8_t *)&fifo_ctrl, 1);
   if (ret == 0)
@@ -851,8 +851,8 @@ int32_t lps22df_fifo_mode_set(const stmdev_ctx_t *ctx, lps22df_operation_t val)
   */
 int32_t lps22df_fifo_mode_get(const stmdev_ctx_t *ctx, lps22df_operation_t *val)
 {
-  lps22df_fifo_ctrl_t fifo_ctrl;
-  int32_t ret;
+  lps22df_fifo_ctrl_t fifo_ctrl = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_FIFO_CTRL, (uint8_t *)&fifo_ctrl, 1);
   if (ret != 0)
@@ -899,8 +899,8 @@ int32_t lps22df_fifo_mode_get(const stmdev_ctx_t *ctx, lps22df_operation_t *val)
   */
 int32_t lps22df_fifo_watermark_set(const stmdev_ctx_t *ctx, uint8_t val)
 {
-  lps22df_fifo_wtm_t fifo_wtm;
-  int32_t ret;
+  lps22df_fifo_wtm_t fifo_wtm = {0};
+  int32_t ret = {0};
 
   if (val >= 128)
   {
@@ -930,8 +930,8 @@ exit:
   */
 int32_t lps22df_fifo_watermark_get(const stmdev_ctx_t *ctx, uint8_t *val)
 {
-  lps22df_fifo_wtm_t fifo_wtm;
-  int32_t ret;
+  lps22df_fifo_wtm_t fifo_wtm = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_FIFO_WTM, (uint8_t *)&fifo_wtm, 1);
   if (ret == 0)
@@ -951,8 +951,8 @@ int32_t lps22df_fifo_watermark_get(const stmdev_ctx_t *ctx, uint8_t *val)
   */
 int32_t lps22df_fifo_stop_on_wtm_set(const stmdev_ctx_t *ctx, lps22df_fifo_event_t *val)
 {
-  lps22df_fifo_ctrl_t fifo_ctrl;
-  int32_t ret;
+  lps22df_fifo_ctrl_t fifo_ctrl = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_FIFO_CTRL, (uint8_t *)&fifo_ctrl, 1);
   if (ret == 0)
@@ -974,8 +974,8 @@ int32_t lps22df_fifo_stop_on_wtm_set(const stmdev_ctx_t *ctx, lps22df_fifo_event
   */
 int32_t lps22df_fifo_stop_on_wtm_get(const stmdev_ctx_t *ctx, lps22df_fifo_event_t *val)
 {
-  lps22df_fifo_ctrl_t fifo_ctrl;
-  int32_t ret;
+  lps22df_fifo_ctrl_t fifo_ctrl = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_FIFO_CTRL, (uint8_t *)&fifo_ctrl, 1);
   if (ret == 0)
@@ -996,8 +996,8 @@ int32_t lps22df_fifo_stop_on_wtm_get(const stmdev_ctx_t *ctx, lps22df_fifo_event
   */
 int32_t lps22df_fifo_level_get(const stmdev_ctx_t *ctx, uint8_t *val)
 {
-  lps22df_fifo_status1_t fifo_status1;
-  int32_t ret;
+  lps22df_fifo_status1_t fifo_status1 = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_FIFO_STATUS1,
                          (uint8_t *)&fifo_status1, 1);
@@ -1022,8 +1022,8 @@ int32_t lps22df_fifo_level_get(const stmdev_ctx_t *ctx, uint8_t *val)
   */
 int32_t lps22df_fifo_data_get(const stmdev_ctx_t *ctx, uint8_t samp, lps22df_fifo_data_t *data)
 {
-  uint8_t fifo_data[3];
-  uint8_t i;
+  uint8_t fifo_data[3] = {0};
+  uint8_t i = {0};
   int32_t ret = 0;
 
   for (i = 0U; i < samp; i++)
@@ -1067,11 +1067,11 @@ int32_t lps22df_fifo_data_get(const stmdev_ctx_t *ctx, uint8_t samp, lps22df_fif
 int32_t lps22df_interrupt_mode_set(const stmdev_ctx_t *ctx,
                                    lps22df_int_mode_t *val)
 {
-  lps22df_interrupt_cfg_t interrupt_cfg;
-  lps22df_ctrl_reg3_t ctrl_reg3;
-  lps22df_ctrl_reg4_t ctrl_reg4;
-  uint8_t reg[2];
-  int32_t ret;
+  lps22df_interrupt_cfg_t interrupt_cfg = {0};
+  lps22df_ctrl_reg3_t ctrl_reg3 = {0};
+  lps22df_ctrl_reg4_t ctrl_reg4 = {0};
+  uint8_t reg[2] = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG3, reg, 2);
   if (ret == 0)
@@ -1109,11 +1109,11 @@ int32_t lps22df_interrupt_mode_set(const stmdev_ctx_t *ctx,
 int32_t lps22df_interrupt_mode_get(const stmdev_ctx_t *ctx,
                                    lps22df_int_mode_t *val)
 {
-  lps22df_interrupt_cfg_t interrupt_cfg;
-  lps22df_ctrl_reg3_t ctrl_reg3;
-  lps22df_ctrl_reg4_t ctrl_reg4;
-  uint8_t reg[2];
-  int32_t ret;
+  lps22df_interrupt_cfg_t interrupt_cfg = {0};
+  lps22df_ctrl_reg3_t ctrl_reg3 = {0};
+  lps22df_ctrl_reg4_t ctrl_reg4 = {0};
+  uint8_t reg[2] = {0};
+  int32_t ret = 0;
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG3, reg, 2);
   ret += lps22df_read_reg(ctx, LPS22DF_INTERRUPT_CFG,
@@ -1144,8 +1144,8 @@ int32_t lps22df_interrupt_mode_get(const stmdev_ctx_t *ctx,
 int32_t lps22df_pin_int_route_set(const stmdev_ctx_t *ctx,
                                   lps22df_pin_int_route_t *val)
 {
-  lps22df_ctrl_reg4_t ctrl_reg4;
-  int32_t ret;
+  lps22df_ctrl_reg4_t ctrl_reg4 = {0};
+  int32_t ret = 0;
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG4, (uint8_t *)&ctrl_reg4, 1);
   if (ret == 0)
@@ -1171,8 +1171,8 @@ int32_t lps22df_pin_int_route_set(const stmdev_ctx_t *ctx,
 int32_t lps22df_pin_int_route_get(const stmdev_ctx_t *ctx,
                                   lps22df_pin_int_route_t *val)
 {
-  lps22df_ctrl_reg4_t ctrl_reg4;
-  int32_t ret;
+  lps22df_ctrl_reg4_t ctrl_reg4 = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_CTRL_REG4, (uint8_t *)&ctrl_reg4, 1);
   if (ret != 0)
@@ -1213,12 +1213,12 @@ int32_t lps22df_pin_int_route_get(const stmdev_ctx_t *ctx,
 int32_t lps22df_int_on_threshold_mode_set(const stmdev_ctx_t *ctx,
                                           lps22df_int_th_md_t *val)
 {
-  lps22df_ctrl_reg4_t ctrl_reg4;
-  lps22df_interrupt_cfg_t interrupt_cfg;
-  lps22df_ths_p_l_t ths_p_l;
-  lps22df_ths_p_h_t ths_p_h;
-  uint8_t reg[3];
-  int32_t ret;
+  lps22df_ctrl_reg4_t ctrl_reg4 = {0};
+  lps22df_interrupt_cfg_t interrupt_cfg = {0};
+  lps22df_ths_p_l_t ths_p_l = {0};
+  lps22df_ths_p_h_t ths_p_h = {0};
+  uint8_t reg[3] = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_INTERRUPT_CFG, reg, 3);
   if (ret == 0)
@@ -1263,11 +1263,11 @@ int32_t lps22df_int_on_threshold_mode_set(const stmdev_ctx_t *ctx,
 int32_t lps22df_int_on_threshold_mode_get(const stmdev_ctx_t *ctx,
                                           lps22df_int_th_md_t *val)
 {
-  lps22df_interrupt_cfg_t interrupt_cfg;
-  lps22df_ths_p_l_t ths_p_l;
-  lps22df_ths_p_h_t ths_p_h;
-  uint8_t reg[3];
-  int32_t ret;
+  lps22df_interrupt_cfg_t interrupt_cfg = {0};
+  lps22df_ths_p_l_t ths_p_l = {0};
+  lps22df_ths_p_h_t ths_p_h = {0};
+  uint8_t reg[3] = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_INTERRUPT_CFG, reg, 3);
   if (ret != 0)
@@ -1310,8 +1310,8 @@ int32_t lps22df_int_on_threshold_mode_get(const stmdev_ctx_t *ctx,
   */
 int32_t lps22df_reference_mode_set(const stmdev_ctx_t *ctx, lps22df_ref_md_t *val)
 {
-  lps22df_interrupt_cfg_t interrupt_cfg;
-  int32_t ret;
+  lps22df_interrupt_cfg_t interrupt_cfg = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_INTERRUPT_CFG,
                          (uint8_t *)&interrupt_cfg, 1);
@@ -1340,8 +1340,8 @@ int32_t lps22df_reference_mode_set(const stmdev_ctx_t *ctx, lps22df_ref_md_t *va
   */
 int32_t lps22df_reference_mode_get(const stmdev_ctx_t *ctx, lps22df_ref_md_t *val)
 {
-  lps22df_interrupt_cfg_t interrupt_cfg;
-  int32_t ret;
+  lps22df_interrupt_cfg_t interrupt_cfg = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_INTERRUPT_CFG,
                          (uint8_t *)&interrupt_cfg, 1);
@@ -1381,8 +1381,8 @@ int32_t lps22df_reference_mode_get(const stmdev_ctx_t *ctx, lps22df_ref_md_t *va
   */
 int32_t lps22df_opc_set(const stmdev_ctx_t *ctx, int16_t val)
 {
-  uint8_t reg[2];
-  int32_t ret;
+  uint8_t reg[2] = {0};
+  int32_t ret = {0};
 
   reg[1] = (uint8_t)(((uint16_t)val & 0xFF00U) / 256U);
   reg[0] = (uint8_t)((uint16_t)val & 0x00FFU);
@@ -1402,8 +1402,8 @@ int32_t lps22df_opc_set(const stmdev_ctx_t *ctx, int16_t val)
   */
 int32_t lps22df_opc_get(const stmdev_ctx_t *ctx, int16_t *val)
 {
-  uint8_t reg[2];
-  int32_t ret;
+  uint8_t reg[2] = {0};
+  int32_t ret = {0};
 
   ret = lps22df_read_reg(ctx, LPS22DF_RPDS_L, reg, 2);
   if (ret != 0)
