@@ -572,8 +572,8 @@ int32_t lps22df_mode_set(const stmdev_ctx_t *ctx, lps22df_md_t *val)
     bytecpy((uint8_t *)&ctrl_reg1, &reg[0]);
     bytecpy((uint8_t *)&ctrl_reg2, &reg[1]);
 
-    ctrl_reg1.odr = (uint8_t)val->odr;
-    ctrl_reg1.avg = (uint8_t)val->avg;
+    ctrl_reg1.odr = (uint8_t)val->odr & 0x0FU;
+    ctrl_reg1.avg = (uint8_t)val->avg & 0x07U;
     ctrl_reg2.en_lpfp = (uint8_t)val->lpf & 0x01U;
     ctrl_reg2.lfpf_cfg = ((uint8_t)val->lpf & 0x02U) >> 2;
 
@@ -745,8 +745,7 @@ int32_t lps22df_data_get(const stmdev_ctx_t *ctx, lps22df_data_t *data)
 
 
   /* temperature conversion */
-  data->heat.raw = (int16_t)buff[4];
-  data->heat.raw = (data->heat.raw * 256) + (int16_t) buff[3];
+  data->heat.raw = (int16_t)(buff[3] | ((uint16_t)buff[4] << 8));
   data->heat.deg_c = lps22df_from_lsb_to_celsius(data->heat.raw);
 
   return ret;
@@ -798,8 +797,7 @@ int32_t lps22df_temperature_raw_get(const stmdev_ctx_t *ctx, int16_t *buff)
     return ret;
   }
 
-  *buff = (int16_t)reg[1];
-  *buff = (*buff * 256) + (int16_t)reg[0];
+  *buff = (int16_t)(reg[0] | ((uint16_t)reg[1] << 8));
 
   return ret;
 }
@@ -911,7 +909,7 @@ int32_t lps22df_fifo_watermark_set(const stmdev_ctx_t *ctx, uint8_t val)
   ret = lps22df_read_reg(ctx, LPS22DF_FIFO_WTM, (uint8_t *)&fifo_wtm, 1);
   if (ret == 0)
   {
-    fifo_wtm.wtm = val & 0x7F;
+    fifo_wtm.wtm = val & 0x7FU;
 
     ret = lps22df_write_reg(ctx, LPS22DF_FIFO_WTM, (uint8_t *)&fifo_wtm, 1);
   }
@@ -1229,7 +1227,7 @@ int32_t lps22df_int_on_threshold_mode_set(const stmdev_ctx_t *ctx,
 
     interrupt_cfg.phe = val->over_th;
     interrupt_cfg.ple = val->under_th;
-    ths_p_h.ths = (uint8_t)(val->threshold / 256U);
+    ths_p_h.ths = (uint8_t)(val->threshold / 256U) & 0x7FU;
     ths_p_l.ths = (uint8_t)(val->threshold - (ths_p_h.ths * 256U));
 
     bytecpy(&reg[0], (uint8_t *)&interrupt_cfg);
@@ -1281,8 +1279,8 @@ int32_t lps22df_int_on_threshold_mode_get(const stmdev_ctx_t *ctx,
 
   val->over_th = interrupt_cfg.phe;
   val->under_th = interrupt_cfg.ple;
-  val->threshold = ths_p_h.ths;
-  val->threshold = (val->threshold * 256U)  + ths_p_l.ths;
+  val->threshold = (uint16_t)(ths_p_l.ths
+                              | ((uint16_t)ths_p_h.ths << 8));
 
   return ret;
 }
@@ -1411,8 +1409,7 @@ int32_t lps22df_opc_get(const stmdev_ctx_t *ctx, int16_t *val)
     return ret;
   }
 
-  *val = (int16_t)reg[1];
-  *val = *val * 256 + (int16_t)reg[0];
+  *val = (int16_t)(reg[0] | ((uint16_t)reg[1] << 8));
 
   return ret;
 }
